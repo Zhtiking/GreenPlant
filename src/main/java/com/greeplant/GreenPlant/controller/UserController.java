@@ -1,22 +1,18 @@
 package com.greeplant.GreenPlant.controller;
 
-import com.greeplant.GreenPlant.entity.User;
+
+import com.greeplant.GreenPlant.domin.User;
 import com.greeplant.GreenPlant.service.UserService;
-import com.greeplant.GreenPlant.util.Result;
+import com.greeplant.GreenPlant.util.JsonData;
 import com.greeplant.GreenPlant.util.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by lenovo on 2020/8/1.
@@ -38,14 +34,14 @@ public class UserController {
      * 用户登录
      */
     @PostMapping("login")
-    public Result login( User user){
+    public JsonData login( User user){
         log.info("当前登录用户的信息: [{}]",user.toString());
         try {
             User userDB = userService.login(user);
-            return new Result(userDB,null,"登录成功",1);
+            return new JsonData(0,userDB,"登录成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(null,null,"登录失败",0);
+            return new JsonData(-1,"登录失败");
         }
     }
 
@@ -68,7 +64,7 @@ public class UserController {
      * 用来处理用户注册方法
      */
     @PostMapping("register")
-    public Result register( User user, String code,
+    public JsonData register( User user, String code,
                            HttpServletRequest request) {// MultipartFile photo
         log.info("用户信息:[{}]",user.toString());
         log.info("用户输入的验证码信息:[{}]",code);
@@ -84,14 +80,14 @@ public class UserController {
 //            if (key.equalsIgnoreCase(code)) {
 //                log.info("生成的验证码信息:[{}]",key);
                 userService.register(user);
-                return new Result(null,null,"注册成功!",1);
+                return new JsonData(0,"","注册成功");
 //            } else {
 //                throw new RuntimeException("验证码出现错误!");
 //            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(null,null,"注册失败!",0);
+            return new JsonData(-1,"注册失败");
         }
     }
 }

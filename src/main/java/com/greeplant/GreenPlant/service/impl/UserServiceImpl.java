@@ -1,7 +1,7 @@
 package com.greeplant.GreenPlant.service.impl;
 
 import com.greeplant.GreenPlant.dao.UserDao;
-import com.greeplant.GreenPlant.entity.User;
+import com.greeplant.GreenPlant.domin.User;
 import com.greeplant.GreenPlant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ public class UserServiceImpl implements UserService {
 
     public User login(User user) {
         //1.根据用户输入用户名进行查询
-        User userDB = userDao.findByUserName(user.getUSER_NAME());
+        User userDB = userDao.findByUserName(user.getUserName());
         if(!ObjectUtils.isEmpty(userDB)){
             //2.比较密码
-            if (userDB.getPASSWORD().equals(user.getPASSWORD())) {
-                userDB.setLAST_LOGIN_TIME(new Date());
+            if (userDB.getPassword().equals(user.getPassword())) {
+                userDB.setLastLoginTime(new Date());
                 return  userDB;
             }else{
                 throw new RuntimeException("密码输入不正确!");
@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
 
     public void register(User user) {
         //根据用户输入用户名判断用户是否存在
-        User userDB = userDao.findByUserName(user.getUSER_NAME());
+        User userDB = userDao.findByUserName(user.getUserName());
         if(userDB==null){
             //设置用户注册时间
-            user.setCREATETIME(new Date());
+            user.setCreatetime(new Date());
             //调用DAO
             userDao.save(user);
         }else{

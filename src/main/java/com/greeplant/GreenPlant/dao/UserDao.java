@@ -1,8 +1,9 @@
 package com.greeplant.GreenPlant.dao;
 
 
-import com.greeplant.GreenPlant.entity.User;
 
+
+import com.greeplant.GreenPlant.domin.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

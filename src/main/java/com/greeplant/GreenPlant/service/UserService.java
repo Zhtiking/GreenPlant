@@ -1,6 +1,7 @@
 package com.greeplant.GreenPlant.service;
 
-import com.greeplant.GreenPlant.entity.User;
+
+import com.greeplant.GreenPlant.domin.User;
 
 public interface UserService {
     //用户登录

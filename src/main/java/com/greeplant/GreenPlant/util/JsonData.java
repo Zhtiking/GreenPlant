@@ -13,7 +13,9 @@ public class JsonData {
     private String msg;
 
     //成功失败处理
-
+    public static JsonData BuildSuccess(int code,String msg){
+        return new JsonData(0,msg);
+    }
     public static JsonData BuildSuccess(Object data){
         return new JsonData(0,data);
     }
